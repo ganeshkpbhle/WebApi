@@ -137,8 +137,8 @@ namespace WebApi.Controllers
             IActionResult response = new ForbidResult();
             User user = await _context.Users.FirstOrDefaultAsync(p => p.Email.Equals(model.Uemail));
             if (user != null)
-            {
-                if (CalcHash(model.Passwd).Equals(user.Passwd))
+            {   string Pswd=(user.SnType=="Google")?user.GId:model.Passwd;
+                if (CalcHash(Pswd).Equals(user.Passwd))
                 {
                     var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
                     var signCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -163,18 +163,23 @@ namespace WebApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id, UpdateModel user)
         {
             if (id != user.Id)
             {
                 return BadRequest();
             }
-
-            _context.Entry(user).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var usr = await _context.Users.FindAsync(id);
+                if (usr != null)
+                {
+                    usr.FirstName = user.FirstName;
+                    usr.LastName = user.LastName;
+                    usr.Email = user.Email;
+                    usr.Mobile = user.Mobile;
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -188,7 +193,7 @@ namespace WebApi.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(new { update = true });
         }
 
         // POST: api/user
@@ -198,17 +203,35 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            User usr = new User()
+            User usr;
+            if (user.SnType.Equals("Google"))
             {
-                GId = user.GId,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Mobile = user.Mobile,
-                Email = user.Email,
-                EmailVerified = user.EmailVerified,
-                SnType = user.SnType,
-                Passwd = CalcHash(user.Passwd)
-            };
+                usr = new User()
+                {
+                    GId = user.GId,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Mobile = user.Mobile,
+                    Email = user.Email,
+                    EmailVerified = user.EmailVerified,
+                    SnType = user.SnType,
+                    Passwd = CalcHash(user.GId)
+                };
+            }
+            else
+            {
+                usr = new User()
+                {
+                    GId = user.GId,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Mobile = user.Mobile,
+                    Email = user.Email,
+                    EmailVerified = user.EmailVerified,
+                    SnType = user.SnType,
+                    Passwd = CalcHash(user.Passwd)
+                };
+            }
             try
             {
                 _context.Users.Add(usr);

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4+lCBUo2frfxi/430g6sclvjks+mUd71QWjN6b5tPBWkrCExSKEOoQSomfTgoDpjoOoAK3VPe77CvgdAimIe1g==",
+  "dgSpecHash": "Z8skoHXvclYw1XAGkW55G+MGFAXoL3EtgaNBL+tphQM7cyBbPYlyNnRVVtzuHmF1iQiXHiFji3a7EozuzJGW8A==",
   "success": true,
-  "projectFilePath": "/home/bill/Desktop/code/WebApi/WebApi.csproj",
+  "projectFilePath": "/home/bill/Github/WebApi/WebApi.csproj",
   "expectedPackageFiles": [
     "/home/bill/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/home/bill/.nuget/packages/mailkit/3.1.0/mailkit.3.1.0.nupkg.sha512",

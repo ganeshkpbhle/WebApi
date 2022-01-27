@@ -1,17 +1,20 @@
 #nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    enum Months
+    {
+        Jan = 1, Feb = 2, Mar = 3, Apr = 4, May = 5, Jun = 6, Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12
+    };
+    enum Weekday
+    {
+        Mon = 1, Tue = 2, Wed = 3, Thu = 4, Fri = 5, Sat = 6, Sun = 7
+    };
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -49,10 +52,11 @@ namespace WebApi.Controllers
         [HttpGet("getlist/{userId}")]
         public async Task<ActionResult<IEnumerable<urlist>>> GetUrlList(int userId)
         {
-            var url = await _context.Urls.Where(p => p.UserId == userId).ToListAsync();
-            List<urlist> li=new List<urlist>();
-            url.ForEach(e =>{
-                li.Add(new urlist(){UrlId=e.UrlId,LongUrl=e.LongUrl,CreatedDate=e.CreatedDate});
+            var url = await _context.Urls.Where(p => p.UserId == userId).OrderByDescending(item => item.CreatedDate).ToListAsync();
+            List<urlist> li = new List<urlist>();
+            url.ForEach(e =>
+            {
+                li.Add(new urlist() { UrlId = e.UrlId, LongUrl = e.LongUrl, CreatedDate = e.CreatedDate });
             });
             if (Mthds.IsCorrectUser(HttpContext.User.Identity as ClaimsIdentity, userId.ToString()))
             {
@@ -69,6 +73,55 @@ namespace WebApi.Controllers
             {
                 return new ForbidResult();
             }
+        }
+
+        [HttpPost("date")]
+        public async Task<ActionResult<IEnumerable<computed>>> GetMonthwise(UrlFormat user)
+        {
+            var url = await _context.Urls.Where(p => p.UserId == user.Id).OrderBy(item => item.CreatedDate).ToListAsync();
+            Dictionary<string, int> dict = new Dictionary<string, int>();
+            DateTime tdy = DateTime.Now;
+            switch (user.Opt)
+            {
+                case 1:
+                    foreach (var item in url)
+                    {
+                        if (item.CreatedDate.Year == tdy.Year)
+                        {
+                            string key = ((Months)item.CreatedDate.Month).ToString();
+                            if (dict.ContainsKey(key))
+                            {
+                                dict[key] += 1;
+                            }
+                            else
+                            {
+                                dict.Add(key, 1);
+                            }
+                        }
+                    }
+                    break;
+                case 2:
+                    double days;
+                    foreach (var item in url)
+                    {
+                        days = (tdy - item.CreatedDate).TotalDays;
+                        string key = ((Weekday)item.CreatedDate.DayOfWeek).ToString();
+                        if (days > 0 && days <= 7)
+                        {
+                            if (dict.ContainsKey(key))
+                            {
+                                dict[key] += 1;
+                            }
+                            else
+                            {
+                                dict.Add(key, 1);
+                            }
+                        }
+                    }
+                    break;
+            }
+            List<computed> li = dict.Select(pair => new computed { Name = pair.Key, Active_Count = pair.Value }).ToList();
+            return li;
         }
 
         // PUT: api/url/5
@@ -132,9 +185,9 @@ namespace WebApi.Controllers
         public async Task<IActionResult> DeleteUrl(string id)
         {
             var url = await _context.Urls.FindAsync(id);
-            var response= Ok(new { del=1 });
+            var response = Ok(new { del = 1 });
             if (url == null)
-            {   
+            {
                 return NotFound();
             }
 

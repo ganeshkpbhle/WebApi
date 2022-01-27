@@ -13,4 +13,13 @@ namespace WebApi.Models
         public string LongUrl { get; set; } = null!;
         public DateTime CreatedDate { get; set; }
     }
+    public partial class computed
+    {
+        public string Name { get; set; } = default!;
+        public int Active_Count { get; set; }
+    }
+    public partial class UrlFormat{
+        public int Id { get; set; }=default!;
+        public int Opt { get; set; }=default!;
+    }
 }

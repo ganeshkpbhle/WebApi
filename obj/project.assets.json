@@ -9749,11 +9749,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/bill/Desktop/code/WebApi/WebApi.csproj",
+      "projectUniqueName": "/home/bill/Github/WebApi/WebApi.csproj",
       "projectName": "WebApi",
-      "projectPath": "/home/bill/Desktop/code/WebApi/WebApi.csproj",
+      "projectPath": "/home/bill/Github/WebApi/WebApi.csproj",
       "packagesPath": "/home/bill/.nuget/packages/",
-      "outputPath": "/home/bill/Desktop/code/WebApi/obj/",
+      "outputPath": "/home/bill/Github/WebApi/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/bill/.nuget/NuGet/NuGet.Config"
