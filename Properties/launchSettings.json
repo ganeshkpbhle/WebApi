@@ -11,6 +11,7 @@
   "profiles": {
     "WebApi": {
       "commandName": "Project",
+      "hotReloadProfile": "aspnetcore",
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",

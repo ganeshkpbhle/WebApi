@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace WebApi.Models
 {
     public partial class urlist
@@ -18,8 +13,19 @@ namespace WebApi.Models
         public string Name { get; set; } = default!;
         public int Active_Count { get; set; }
     }
-    public partial class UrlFormat{
-        public int Id { get; set; }=default!;
-        public int Opt { get; set; }=default!;
+    public partial class UrlFormat
+    {
+        public int Id { get; set; } = default!;
+        public int Opt { get; set; } = default!;
+    }
+    public partial class yearGroup
+    {
+        public int Yr { get; set; }
+        public List<urlist>? YrData { get; set; }
+    }
+    public partial class MonthGroup
+    {
+        public string? month { get; set; }
+        public List<urlist>? list { get; set; }
     }
 }

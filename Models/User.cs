@@ -18,7 +18,7 @@ namespace WebApi.Models
         public string Email { get; set; } = null!;
         public int EmailVerified { get; set; }
         public string? SnType { get; set; }
-        public string Passwd { get; set; }=null!;
+        public string Passwd { get; set; } = null!;
 
         public virtual ICollection<Url> Urls { get; set; }
     }

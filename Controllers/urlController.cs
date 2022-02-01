@@ -7,14 +7,7 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
-    enum Months
-    {
-        Jan = 1, Feb = 2, Mar = 3, Apr = 4, May = 5, Jun = 6, Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12
-    };
-    enum Weekday
-    {
-        Mon = 1, Tue = 2, Wed = 3, Thu = 4, Fri = 5, Sat = 6, Sun = 7
-    };
+
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -50,19 +43,31 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("getlist/{userId}")]
-        public async Task<ActionResult<IEnumerable<urlist>>> GetUrlList(int userId)
+        public async Task<ActionResult<IEnumerable<MonthGroup>>> GetUrlList(int userId)
         {
-            var url = await _context.Urls.Where(p => p.UserId == userId).OrderByDescending(item => item.CreatedDate).ToListAsync();
-            List<urlist> li = new List<urlist>();
-            url.ForEach(e =>
-            {
-                li.Add(new urlist() { UrlId = e.UrlId, LongUrl = e.LongUrl, CreatedDate = e.CreatedDate });
-            });
+            var url = await _context.Urls.Where(p => p.UserId == userId).Select(x => new urlist() { UrlId = x.UrlId, LongUrl = x.LongUrl, CreatedDate = x.CreatedDate }).ToListAsync<urlist>();
             if (Mthds.IsCorrectUser(HttpContext.User.Identity as ClaimsIdentity, userId.ToString()))
             {
                 if (url != null)
                 {
-                    return li;
+                    var yearwise = url.AsEnumerable().GroupBy(x => x.CreatedDate.Year).Select(o => new yearGroup()
+                    {
+                        Yr = o.Key,
+                        YrData = o.ToList()
+                    })
+                    .Where(e => e.Yr == DateTime.Now.Year).ToList();
+                    if (yearwise.Count > 0)
+                    {
+                        var cmpt = yearwise[0].YrData.AsEnumerable()
+                        .GroupBy(x => x.CreatedDate.Month)
+                        .Select(o => new MonthGroup()
+                        {
+                            month= ((Months)o.Key).ToString(),list=o.OrderBy(e => e.CreatedDate).ToList()
+                        })
+                        .ToList<MonthGroup>();
+                        return cmpt;
+                    }
+                    return NotFound();
                 }
                 else
                 {

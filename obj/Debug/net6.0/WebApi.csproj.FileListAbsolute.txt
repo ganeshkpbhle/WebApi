@@ -530,3 +530,4 @@
 /home/bill/Github/WebApi/obj/Debug/net6.0/ref/WebApi.dll
 /home/bill/Github/WebApi/obj/Debug/net6.0/WebApi.pdb
 /home/bill/Github/WebApi/obj/Debug/net6.0/WebApi.genruntimeconfig.cache
+/home/bill/Github/WebApi/bin/Debug/net6.0/dotnet-watch.dll

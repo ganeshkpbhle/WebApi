@@ -63,12 +63,6 @@ namespace WebApi.Models
                 entity.HasIndex(e => e.Email, "UQ__users__AB6E61649C60E046")
                     .IsUnique();
 
-                entity.HasIndex(e => e.GId, "UQ__users__DCD90921AD85BF08")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.GId, "uniq")
-                    .IsUnique();
-
                 entity.HasIndex(e => e.Email, "unq")
                     .IsUnique();
 
