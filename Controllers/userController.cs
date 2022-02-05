@@ -226,6 +226,7 @@ namespace WebApi.Controllers
                     SnType = user.SnType,
                     Passwd = CalcHash(user.Passwd)
                 };
+                var len=CalcHash(user.Passwd).Length;
             }
             try
             {

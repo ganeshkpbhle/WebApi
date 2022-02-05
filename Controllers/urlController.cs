@@ -53,7 +53,7 @@ namespace WebApi.Controllers
                     var yearwise = url.AsEnumerable().GroupBy(x => x.CreatedDate.Year).Select(o => new yearGroup()
                     {
                         Yr = o.Key,
-                        YrData = o.ToList()
+                        YrData = o.OrderBy(x => x.CreatedDate.Month).ToList()
                     })
                     .Where(e => e.Yr == DateTime.Now.Year).ToList();
                     if (yearwise.Count > 0)
@@ -62,12 +62,12 @@ namespace WebApi.Controllers
                         .GroupBy(x => x.CreatedDate.Month)
                         .Select(o => new MonthGroup()
                         {
-                            month= ((Months)o.Key).ToString(),list=o.OrderBy(e => e.CreatedDate).ToList()
+                            month= ((Months)o.Key).ToString(),urls=o.OrderBy(e => e.CreatedDate).ToList()
                         })
                         .ToList<MonthGroup>();
                         return cmpt;
                     }
-                    return NotFound();
+                    return new List<MonthGroup>(){};
                 }
                 else
                 {
@@ -110,6 +110,7 @@ namespace WebApi.Controllers
                     foreach (var item in url)
                     {
                         days = (tdy - item.CreatedDate).TotalDays;
+                        var tmp=(Weekday)tdy.DayOfWeek;
                         string key = ((Weekday)item.CreatedDate.DayOfWeek).ToString();
                         if (days > 0 && days <= 7)
                         {

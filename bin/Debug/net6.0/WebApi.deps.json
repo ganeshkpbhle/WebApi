@@ -15,6 +15,7 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.1",
           "Microsoft.IdentityModel.JsonWebTokens": "6.15.1",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.1",
+          "NETCore.MailKit": "2.0.3",
           "Swashbuckle.AspNetCore": "6.2.3",
           "System.IdentityModel.Tokens.Jwt": "6.15.1"
         },
@@ -1267,6 +1268,18 @@
           }
         }
       },
+      "NETCore.MailKit/2.0.3": {
+        "dependencies": {
+          "MailKit": "3.1.0",
+          "Microsoft.Extensions.DependencyInjection": "6.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/NETCore.MailKit.dll": {
+            "assemblyVersion": "2.0.3.0",
+            "fileVersion": "2.0.3.0"
+          }
+        }
+      },
       "NETStandard.Library/2.0.1": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0"
@@ -2365,6 +2378,13 @@
       "sha512": "sha512-ZBx2Mmq+vvDASI59K525hoHOtf9HqsvE5/jBuVSQB6Pwrh8keFHiKtFzKuh/G1Idj0Wr5qJOxxwPtsKJA3K3hA==",
       "path": "mimekit/3.1.0",
       "hashPath": "mimekit.3.1.0.nupkg.sha512"
+    },
+    "NETCore.MailKit/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5V4N3S9soQLBemj2+u4TvIbSfJP1Hs/iV7TCJuBc913lD9OoZ+7Lne4eA90F292OLZ2iBQJzXttAvfYgIYWnFg==",
+      "path": "netcore.mailkit/2.0.3",
+      "hashPath": "netcore.mailkit.2.0.3.nupkg.sha512"
     },
     "NETStandard.Library/2.0.1": {
       "type": "package",

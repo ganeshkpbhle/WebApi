@@ -1609,6 +1609,19 @@
           "lib/net6.0/MimeKit.dll": {}
         }
       },
+      "NETCore.MailKit/2.0.3": {
+        "type": "package",
+        "dependencies": {
+          "MailKit": "2.6.0",
+          "Microsoft.Extensions.DependencyInjection": "3.1.4"
+        },
+        "compile": {
+          "lib/netstandard2.1/NETCore.MailKit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/NETCore.MailKit.dll": {}
+        }
+      },
       "NETStandard.Library/2.0.1": {
         "type": "package",
         "dependencies": {
@@ -5149,6 +5162,18 @@
         "mimekit.nuspec"
       ]
     },
+    "NETCore.MailKit/2.0.3": {
+      "sha512": "5V4N3S9soQLBemj2+u4TvIbSfJP1Hs/iV7TCJuBc913lD9OoZ+7Lne4eA90F292OLZ2iBQJzXttAvfYgIYWnFg==",
+      "type": "package",
+      "path": "netcore.mailkit/2.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.1/NETCore.MailKit.dll",
+        "netcore.mailkit.2.0.3.nupkg.sha512",
+        "netcore.mailkit.nuspec"
+      ]
+    },
     "NETStandard.Library/2.0.1": {
       "sha512": "oA6nwv9MhEKYvLpjZ0ggSpb1g4CQViDVQjLUcDWg598jtvJbpfeP2reqwI1GLW2TbxC/Ml7xL6BBR1HmKPXlTg==",
       "type": "package",
@@ -7782,24 +7807,25 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.1",
       "Microsoft.IdentityModel.JsonWebTokens >= 6.15.1",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.1",
+      "NETCore.MailKit >= 2.0.3",
       "Swashbuckle.AspNetCore >= 6.2.3",
       "System.IdentityModel.Tokens.Jwt >= 6.15.1"
     ]
   },
   "packageFolders": {
-    "/home/bill/.nuget/packages/": {}
+    "/home/billcage/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/bill/Github/WebApi/WebApi.csproj",
+      "projectUniqueName": "/home/billcage/Documents/GitHub/WebApi/WebApi.csproj",
       "projectName": "WebApi",
-      "projectPath": "/home/bill/Github/WebApi/WebApi.csproj",
-      "packagesPath": "/home/bill/.nuget/packages/",
-      "outputPath": "/home/bill/Github/WebApi/obj/",
+      "projectPath": "/home/billcage/Documents/GitHub/WebApi/WebApi.csproj",
+      "packagesPath": "/home/billcage/.nuget/packages/",
+      "outputPath": "/home/billcage/Documents/GitHub/WebApi/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/bill/.nuget/NuGet/NuGet.Config"
+        "/home/billcage/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -7852,6 +7878,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[6.0.1, )"
+          },
+          "NETCore.MailKit": {
+            "target": "Package",
+            "version": "[2.0.3, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/bill/Github/WebApi/WebApi.csproj": {}
+    "/home/billcage/Documents/GitHub/WebApi/WebApi.csproj": {}
   },
   "projects": {
-    "/home/bill/Github/WebApi/WebApi.csproj": {
+    "/home/billcage/Documents/GitHub/WebApi/WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bill/Github/WebApi/WebApi.csproj",
+        "projectUniqueName": "/home/billcage/Documents/GitHub/WebApi/WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "/home/bill/Github/WebApi/WebApi.csproj",
-        "packagesPath": "/home/bill/.nuget/packages/",
-        "outputPath": "/home/bill/Github/WebApi/obj/",
+        "projectPath": "/home/billcage/Documents/GitHub/WebApi/WebApi.csproj",
+        "packagesPath": "/home/billcage/.nuget/packages/",
+        "outputPath": "/home/billcage/Documents/GitHub/WebApi/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/bill/.nuget/NuGet/NuGet.Config"
+          "/home/billcage/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -67,6 +67,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[6.0.1, )"
+            },
+            "NETCore.MailKit": {
+              "target": "Package",
+              "version": "[2.0.3, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

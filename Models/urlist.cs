@@ -26,6 +26,6 @@ namespace WebApi.Models
     public partial class MonthGroup
     {
         public string? month { get; set; }
-        public List<urlist>? list { get; set; }
+        public List<urlist>? urls { get; set; }
     }
 }

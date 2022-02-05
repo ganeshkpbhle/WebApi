@@ -43,7 +43,7 @@ namespace WebApi.Models
                     .HasColumnName("created_Date");
 
                 entity.Property(e => e.LongUrl)
-                    .HasMaxLength(500)
+                    .HasMaxLength(1000)
                     .IsUnicode(false)
                     .HasColumnName("longUrl");
 
@@ -53,38 +53,35 @@ namespace WebApi.Models
                     .WithMany(p => p.Urls)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__urls__userId__02FC7413");
+                    .HasConstraintName("FK__urls__userId__3A81B327");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users");
 
-                entity.HasIndex(e => e.Email, "UQ__users__AB6E61649C60E046")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.Email, "unq")
+                entity.HasIndex(e => e.Email, "UQ__users__AB6E6164D9663D1C")
                     .IsUnique();
 
                 entity.Property(e => e.Email)
-                    .HasMaxLength(35)
+                    .HasMaxLength(38)
                     .IsUnicode(false)
                     .HasColumnName("email");
 
                 entity.Property(e => e.EmailVerified).HasColumnName("emailVerified");
 
                 entity.Property(e => e.FirstName)
-                    .HasMaxLength(20)
+                    .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("firstName");
 
                 entity.Property(e => e.GId)
-                    .HasMaxLength(32)
+                    .HasMaxLength(38)
                     .IsUnicode(false)
                     .HasColumnName("gId");
 
                 entity.Property(e => e.LastName)
-                    .HasMaxLength(20)
+                    .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("lastName");
 
@@ -94,12 +91,12 @@ namespace WebApi.Models
                     .HasColumnName("mobile");
 
                 entity.Property(e => e.Passwd)
-                    .HasMaxLength(70)
+                    .HasMaxLength(60)
                     .IsUnicode(false)
                     .HasColumnName("passwd");
 
                 entity.Property(e => e.SnType)
-                    .HasMaxLength(10)
+                    .HasMaxLength(12)
                     .IsUnicode(false)
                     .HasColumnName("snType");
             });
