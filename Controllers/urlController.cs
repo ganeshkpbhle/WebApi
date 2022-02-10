@@ -62,7 +62,7 @@ namespace WebApi.Controllers
                         .GroupBy(x => x.CreatedDate.Month)
                         .Select(o => new MonthGroup()
                         {
-                            month= ((Months)o.Key).ToString(),urls=o.OrderBy(e => e.CreatedDate).ToList()
+                            name= ((Months)o.Key).ToString(),urls=o.OrderBy(e => e.CreatedDate).ToList(),count=o.Count()
                         })
                         .ToList<MonthGroup>();
                         return cmpt;

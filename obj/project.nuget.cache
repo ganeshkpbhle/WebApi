@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "SGC1VcbP8RpgMlq6H1rKB90vmg3v2zetVSpMzFsBbZSE+bd8STQzfiL8TqbqHzyDwHlhKgCW7xg+bQ/qerQ+Dg==",
+  "dgSpecHash": "MsSrud70rA6bhzVjC+ORcKVi4YEzuEKV9VJtiF3uYLulivz9aqykOLUtK64+P2mz0Wa414ZmzQbtS/IF4vFZeQ==",
   "success": true,
   "projectFilePath": "/home/billcage/Documents/GitHub/WebApi/WebApi.csproj",
   "expectedPackageFiles": [
@@ -142,7 +142,10 @@
     "/home/billcage/.nuget/packages/system.threading.tasks/4.3.0/system.threading.tasks.4.3.0.nupkg.sha512",
     "/home/billcage/.nuget/packages/system.threading.tasks.dataflow/4.9.0/system.threading.tasks.dataflow.4.9.0.nupkg.sha512",
     "/home/billcage/.nuget/packages/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "/home/billcage/.nuget/packages/system.windows.extensions/4.7.0/system.windows.extensions.4.7.0.nupkg.sha512"
+    "/home/billcage/.nuget/packages/system.windows.extensions/4.7.0/system.windows.extensions.4.7.0.nupkg.sha512",
+    "/home/billcage/.nuget/packages/microsoft.netcore.app.ref/6.0.1/microsoft.netcore.app.ref.6.0.1.nupkg.sha512",
+    "/home/billcage/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.1/microsoft.netcore.app.host.linux-x64.6.0.1.nupkg.sha512",
+    "/home/billcage/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.0/microsoft.aspnetcore.app.ref.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }

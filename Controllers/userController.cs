@@ -20,6 +20,7 @@ namespace WebApi.Controllers
         private readonly IConfiguration _config;
         private readonly SHA256 sHA256 = SHA256.Create();
         private readonly UTF8Encoding objUtf8 = new UTF8Encoding();
+        private readonly double exp_time=24*60;
 
         private string CalcHash(string str)
         {
@@ -110,7 +111,7 @@ namespace WebApi.Controllers
                 var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                                                 _config["Jwt:Issuer"],
                                                 payload,
-                                                expires: DateTime.Now.AddMinutes(45),
+                                                expires: DateTime.Now.AddMinutes(exp_time),
                                                 signingCredentials: signCredentials
                                                 );
                 var registeredToken = new JwtSecurityTokenHandler().WriteToken(token);
@@ -144,7 +145,7 @@ namespace WebApi.Controllers
                     var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                                                     _config["Jwt:Issuer"],
                                                     payload,
-                                                    expires: DateTime.Now.AddMinutes(45),
+                                                    expires: DateTime.Now.AddMinutes(exp_time),
                                                     signingCredentials: signCredentials
                                                     );
                     var registeredToken = new JwtSecurityTokenHandler().WriteToken(token);
