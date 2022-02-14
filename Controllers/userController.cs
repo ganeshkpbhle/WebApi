@@ -20,7 +20,7 @@ namespace WebApi.Controllers
         private readonly IConfiguration _config;
         private readonly SHA256 sHA256 = SHA256.Create();
         private readonly UTF8Encoding objUtf8 = new UTF8Encoding();
-        private readonly double exp_time=24*60;
+        private readonly double exp_time = 24 * 60;
 
         private string CalcHash(string str)
         {
@@ -131,37 +131,94 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Login(loginModel model)
         {
             IActionResult response = new ForbidResult();
-            User user = await _context.Users.FirstOrDefaultAsync(p => p.Email.Equals(model.Uemail));
-            if (user != null)
-            {   string Pswd=(user.SnType=="Google")?user.GId:model.Passwd;
-                if (CalcHash(Pswd).Equals(user.Passwd))
+            DateTime tdy = DateTime.Now;
+            try
+            {
+                User user = await _context.Users.FirstOrDefaultAsync(p => p.Email.Equals(model.Uemail));
+                if (user != null)
                 {
-                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-                    var signCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-                    var payload = new[]
+                    string Pswd = (user.SnType == "Google") ? user.GId : model.Passwd;
+                    if (CalcHash(Pswd).Equals(user.Passwd))
                     {
+                        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+                        var signCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                        var payload = new[]
+                        {
                         new Claim(JwtRegisteredClaimNames.Sid,user.Id.ToString()),
                     };
-                    var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                                                    _config["Jwt:Issuer"],
-                                                    payload,
-                                                    expires: DateTime.Now.AddMinutes(exp_time),
-                                                    signingCredentials: signCredentials
-                                                    );
-                    var registeredToken = new JwtSecurityTokenHandler().WriteToken(token);
-                    response = Ok(new { token = registeredToken, id = user.Id });
+                        var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                                                        _config["Jwt:Issuer"],
+                                                        payload,
+                                                        expires: DateTime.Now.AddMinutes(exp_time),
+                                                        signingCredentials: signCredentials
+                                                        );
+                        var registeredToken = new JwtSecurityTokenHandler().WriteToken(token);
+                        response = Ok(new { token = registeredToken, id = user.Id });
+                        UsersSession _sessiondata = await _context.UsersSessions.FindAsync(user.Id);
+                        if (_sessiondata != null)
+                        {
+                            double span = (_sessiondata.SessionEnd - tdy).TotalDays;
+                            if (span > 0)
+                            {
+                                response = StatusCode(409, $"User '{user.Email}' already having another session");
+                            }
+                        }
+                        else
+                        {
+                            UsersSession session = new UsersSession()
+                            {
+                                Id = user.Id,
+                                SessionStart = tdy,
+                                SessionEnd = tdy.AddMinutes(exp_time),
+                                TokenValid = 1,
+                                Token = registeredToken
+                            };
+                            _context.UsersSessions.Add(session);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
                 }
+                return response;
             }
-            return response;
-        }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                throw;
+            }
 
+        }
+        [HttpPost]
+        [Route("logout")]
+        public async Task<IActionResult> Logout(DelRes user)
+        {
+            IActionResult response = new ForbidResult();
+            try
+            {
+                if ((Mthds.IsCorrectUser(HttpContext.User.Identity as ClaimsIdentity, user.del.ToString())))
+                {
+                    var _sessiondata = await _context.UsersSessions.FindAsync(user.del);
+                    _sessiondata.TokenValid = 0;
+                    _sessiondata.Token = "";
+                    _sessiondata.SessionEnd = DateTime.Now;
+                    await _context.SaveChangesAsync();
+                    response=Ok(new { logout=1 });
+                }
+
+                return response;
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                throw;
+            }
+        }
         // PUT: api/user/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, UpdateModel user)
         {
-            if (id != user.Id)
+            if (id != user.Id || !(Mthds.IsCorrectUser(HttpContext.User.Identity as ClaimsIdentity, id.ToString())))
             {
                 return BadRequest();
             }
@@ -172,7 +229,11 @@ namespace WebApi.Controllers
                 {
                     usr.FirstName = user.FirstName;
                     usr.LastName = user.LastName;
-                    usr.Email = user.Email;
+                    if (usr.Email != user.Email)
+                    {
+                        usr.Email = user.Email;
+                        usr.EmailVerified = 0;
+                    }
                     usr.Mobile = user.Mobile;
                     await _context.SaveChangesAsync();
                 }
@@ -227,7 +288,7 @@ namespace WebApi.Controllers
                     SnType = user.SnType,
                     Passwd = CalcHash(user.Passwd)
                 };
-                var len=CalcHash(user.Passwd).Length;
+                var len = CalcHash(user.Passwd).Length;
             }
             try
             {

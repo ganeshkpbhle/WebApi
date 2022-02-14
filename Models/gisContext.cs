@@ -18,6 +18,7 @@ namespace WebApi.Models
 
         public virtual DbSet<Url> Urls { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UsersSession> UsersSessions { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -91,7 +92,7 @@ namespace WebApi.Models
                     .HasColumnName("mobile");
 
                 entity.Property(e => e.Passwd)
-                    .HasMaxLength(60)
+                    .HasMaxLength(70)
                     .IsUnicode(false)
                     .HasColumnName("passwd");
 
@@ -99,6 +100,37 @@ namespace WebApi.Models
                     .HasMaxLength(12)
                     .IsUnicode(false)
                     .HasColumnName("snType");
+            });
+
+            modelBuilder.Entity<UsersSession>(entity =>
+            {
+                entity.ToTable("users_session");
+
+                entity.HasIndex(e => e.Token, "UQ__users_se__CA90DA7ABCE5EDAB")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.SessionEnd)
+                    .HasColumnType("datetime")
+                    .HasColumnName("session_end");
+
+                entity.Property(e => e.SessionStart)
+                    .HasColumnType("datetime")
+                    .HasColumnName("session_start");
+
+                entity.Property(e => e.Token)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("token");
+
+                entity.Property(e => e.TokenValid).HasColumnName("token_valid");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.UsersSession)
+                    .HasForeignKey<UsersSession>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__users_sessio__Id__5DCAEF64");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -30,4 +30,8 @@ namespace WebApi.Models
 
         public int count { get; set; }=default!;
     }
+    public partial class DelRes
+    {
+        public int del { get; set; }
+    }
 }
