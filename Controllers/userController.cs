@@ -97,7 +97,7 @@ namespace WebApi.Controllers
                 var user = await _context.Users.FirstOrDefaultAsync(p => p.Email.Equals(email));
                 if (user == null)
                 {
-                    var result = Ok(new { message = 0 });
+                    var result = Ok(true);
                     return result;
                 }
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
