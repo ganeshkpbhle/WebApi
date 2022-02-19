@@ -248,7 +248,7 @@ namespace WebApi.Controllers
                 }
             }
 
-            return Ok(new { update = true });
+            return Ok("updated");
         }
 
         // POST: api/user
