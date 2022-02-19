@@ -20,7 +20,7 @@ namespace WebApi.Models
         public string SnType { get; set; } = null!;
         public string Passwd { get; set; } = null!;
 
-        public virtual UserSession? UserSession { get; set; }
+        public virtual UserSession? UserSession { get; set; } = null!;
         public virtual ICollection<Url>? Urls { get; set; }
     }
 }

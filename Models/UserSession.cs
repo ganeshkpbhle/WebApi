@@ -11,6 +11,6 @@ namespace WebApi.Models
         public int TokenValid { get; set; }
         public string Token { get; set; } = null!;
 
-        public virtual User IdNavigation { get; set; } = null!;
+        public virtual User? IdNavigation { get; set; } = null!;
     }
 }

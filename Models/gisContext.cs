@@ -54,17 +54,17 @@ namespace WebApi.Models
                     .WithMany(p => p.Urls)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__urls__userId__3B75D760");
+                    .HasConstraintName("FK__urls__userId__619B8048");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users");
 
-                entity.HasIndex(e => e.Email, "UQ__users__AB6E6164D67297F4")
+                entity.HasIndex(e => e.Email, "UQ__users__AB6E61647A397DA8")
                     .IsUnique();
 
-                entity.HasIndex(e => e.GId, "UQ__users__DCD90921F2CF1CEB")
+                entity.HasIndex(e => e.GId, "UQ__users__DCD90921BBF0302E")
                     .IsUnique();
 
                 entity.Property(e => e.Email)
@@ -80,7 +80,7 @@ namespace WebApi.Models
                     .HasColumnName("firstName");
 
                 entity.Property(e => e.GId)
-                    .HasMaxLength(30)
+                    .HasMaxLength(60)
                     .IsUnicode(false)
                     .HasColumnName("gId");
 
@@ -130,7 +130,7 @@ namespace WebApi.Models
                     .WithOne(p => p.UserSession)
                     .HasForeignKey<UserSession>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__userSession__Id__3E52440B");
+                    .HasConstraintName("FK__userSession__Id__6477ECF3");
             });
 
             OnModelCreatingPartial(modelBuilder);
