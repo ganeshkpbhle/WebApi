@@ -11,7 +11,9 @@ namespace WebApi.Models
         public string Passwd { get; set; }=default!;
     }
     public partial class response
-    {
+    {   
+        public int Id { get; set; }
+        public string GId { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string? LastName { get; set; }
         public string? Mobile { get; set; }

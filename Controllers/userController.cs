@@ -45,12 +45,13 @@ namespace WebApi.Controllers
         {
             return await _context.Users.ToListAsync();
         }
-        [HttpGet("getRes/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<response>> GetUserSimple(int id)
         {
             var user = await _context.Users.FindAsync(id);
             response res = new response()
-            {
+            {   Id=user.Id,
+                GId=user.GId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Mobile = user.Mobile,
@@ -65,23 +66,6 @@ namespace WebApi.Controllers
             else if (Mthds.IsCorrectUser(HttpContext.User.Identity as ClaimsIdentity, id.ToString()))
             {
                 return res;
-            }
-            else
-            {
-                return new ForbidResult();
-            }
-        }
-        [HttpGet("getId/{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            else if (Mthds.IsCorrectUser(HttpContext.User.Identity as ClaimsIdentity, id.ToString()))
-            {
-                return user;
             }
             else
             {
@@ -152,28 +136,28 @@ namespace WebApi.Controllers
                                                         );
                         var registeredToken = new JwtSecurityTokenHandler().WriteToken(token);
                         response = Ok(new { token = registeredToken, id = user.Id });
-                        // UserSession _sessiondata = await _context.UserSessions.FindAsync(user.Id);
-                        // if (_sessiondata != null)
-                        // {
-                        //     double span = (_sessiondata.SessionEnd - tdy).TotalDays;
-                        //     if (span > 0)
-                        //     {
-                        //         response = StatusCode(409, $"User '{user.Email}' already having another session");
-                        //     }
-                        // }
-                        // else
-                        // {
-                        //     UserSession session = new UserSession()
-                        //     {
-                        //         Id = user.Id,
-                        //         SessionStart = tdy,
-                        //         SessionEnd = tdy.AddMinutes(exp_time),
-                        //         TokenValid = 1,
-                        //         Token = registeredToken
-                        //     };
-                        //     _context.UserSessions.Add(session);
-                        //     await _context.SaveChangesAsync();
-                        // }
+                        UserSession _sessiondata = await _context.UserSessions.FindAsync(user.Id);
+                        if (_sessiondata != null)
+                        {
+                            double span = (_sessiondata.SessionEnd - tdy).TotalDays;
+                            if (span > 0)
+                            {
+                                response = StatusCode(409, $"User '{user.Email}' already having another session");
+                            }
+                        }
+                        else
+                        {
+                            UserSession session = new UserSession()
+                            {
+                                Id = user.Id,
+                                SessionStart = tdy,
+                                SessionEnd = tdy.AddMinutes(exp_time),
+                                TokenValid = 1,
+                                Token = registeredToken
+                            };
+                            _context.UserSessions.Add(session);
+                            await _context.SaveChangesAsync();
+                        }
                     }
                 }
                 return response;
