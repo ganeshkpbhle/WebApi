@@ -18,7 +18,7 @@ namespace WebApi.Models
 
         public virtual DbSet<Url> Urls { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<UsersSession> UsersSessions { get; set; } = null!;
+        public virtual DbSet<UserSession> UserSessions { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -44,7 +44,7 @@ namespace WebApi.Models
                     .HasColumnName("created_Date");
 
                 entity.Property(e => e.LongUrl)
-                    .HasMaxLength(1000)
+                    .HasMaxLength(500)
                     .IsUnicode(false)
                     .HasColumnName("longUrl");
 
@@ -54,18 +54,21 @@ namespace WebApi.Models
                     .WithMany(p => p.Urls)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__urls__userId__3A81B327");
+                    .HasConstraintName("FK__urls__userId__3B75D760");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users");
 
-                entity.HasIndex(e => e.Email, "UQ__users__AB6E6164D9663D1C")
+                entity.HasIndex(e => e.Email, "UQ__users__AB6E6164D67297F4")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.GId, "UQ__users__DCD90921F2CF1CEB")
                     .IsUnique();
 
                 entity.Property(e => e.Email)
-                    .HasMaxLength(38)
+                    .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("email");
 
@@ -77,7 +80,7 @@ namespace WebApi.Models
                     .HasColumnName("firstName");
 
                 entity.Property(e => e.GId)
-                    .HasMaxLength(38)
+                    .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("gId");
 
@@ -87,7 +90,7 @@ namespace WebApi.Models
                     .HasColumnName("lastName");
 
                 entity.Property(e => e.Mobile)
-                    .HasMaxLength(10)
+                    .HasMaxLength(12)
                     .IsUnicode(false)
                     .HasColumnName("mobile");
 
@@ -102,35 +105,32 @@ namespace WebApi.Models
                     .HasColumnName("snType");
             });
 
-            modelBuilder.Entity<UsersSession>(entity =>
+            modelBuilder.Entity<UserSession>(entity =>
             {
-                entity.ToTable("users_session");
-
-                entity.HasIndex(e => e.Token, "UQ__users_se__CA90DA7ABCE5EDAB")
-                    .IsUnique();
+                entity.ToTable("userSession");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.SessionEnd)
                     .HasColumnType("datetime")
-                    .HasColumnName("session_end");
+                    .HasColumnName("sessionEnd");
 
                 entity.Property(e => e.SessionStart)
                     .HasColumnType("datetime")
-                    .HasColumnName("session_start");
+                    .HasColumnName("sessionStart");
 
                 entity.Property(e => e.Token)
-                    .HasMaxLength(500)
+                    .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("token");
 
-                entity.Property(e => e.TokenValid).HasColumnName("token_valid");
+                entity.Property(e => e.TokenValid).HasColumnName("tokenValid");
 
                 entity.HasOne(d => d.IdNavigation)
-                    .WithOne(p => p.UsersSession)
-                    .HasForeignKey<UsersSession>(d => d.Id)
+                    .WithOne(p => p.UserSession)
+                    .HasForeignKey<UserSession>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__users_sessio__Id__5DCAEF64");
+                    .HasConstraintName("FK__userSession__Id__3E52440B");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -30,7 +30,7 @@ namespace WebApi.Controllers
         // GET: api/url/5
         [HttpGet("getId/{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<Url>> GetUrl(string id)
+        public async Task<IActionResult> GetUrl(string id)
         {
             var url = await _context.Urls.FindAsync(id);
 
@@ -39,7 +39,7 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            return url;
+            return Ok(url.LongUrl);
         }
 
         [HttpGet("getlist/{userId}")]
@@ -183,7 +183,7 @@ namespace WebApi.Controllers
                 }
             }
 
-            return CreatedAtAction("GetUrl", new { id = url.UrlId }, url);
+            return Ok("created");
         }
 
         // DELETE: api/url/5

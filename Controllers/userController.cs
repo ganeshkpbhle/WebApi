@@ -51,8 +51,6 @@ namespace WebApi.Controllers
             var user = await _context.Users.FindAsync(id);
             response res = new response()
             {
-                Id = user.Id,
-                GId = user.GId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Mobile = user.Mobile,
@@ -154,28 +152,28 @@ namespace WebApi.Controllers
                                                         );
                         var registeredToken = new JwtSecurityTokenHandler().WriteToken(token);
                         response = Ok(new { token = registeredToken, id = user.Id });
-                        UsersSession _sessiondata = await _context.UsersSessions.FindAsync(user.Id);
-                        if (_sessiondata != null)
-                        {
-                            double span = (_sessiondata.SessionEnd - tdy).TotalDays;
-                            if (span > 0)
-                            {
-                                response = StatusCode(409, $"User '{user.Email}' already having another session");
-                            }
-                        }
-                        else
-                        {
-                            UsersSession session = new UsersSession()
-                            {
-                                Id = user.Id,
-                                SessionStart = tdy,
-                                SessionEnd = tdy.AddMinutes(exp_time),
-                                TokenValid = 1,
-                                Token = registeredToken
-                            };
-                            _context.UsersSessions.Add(session);
-                            await _context.SaveChangesAsync();
-                        }
+                        // UserSession _sessiondata = await _context.UserSessions.FindAsync(user.Id);
+                        // if (_sessiondata != null)
+                        // {
+                        //     double span = (_sessiondata.SessionEnd - tdy).TotalDays;
+                        //     if (span > 0)
+                        //     {
+                        //         response = StatusCode(409, $"User '{user.Email}' already having another session");
+                        //     }
+                        // }
+                        // else
+                        // {
+                        //     UserSession session = new UserSession()
+                        //     {
+                        //         Id = user.Id,
+                        //         SessionStart = tdy,
+                        //         SessionEnd = tdy.AddMinutes(exp_time),
+                        //         TokenValid = 1,
+                        //         Token = registeredToken
+                        //     };
+                        //     _context.UserSessions.Add(session);
+                        //     await _context.SaveChangesAsync();
+                        // }
                     }
                 }
                 return response;
@@ -196,12 +194,12 @@ namespace WebApi.Controllers
             {
                 if ((Mthds.IsCorrectUser(HttpContext.User.Identity as ClaimsIdentity, user.del.ToString())))
                 {
-                    var _sessiondata = await _context.UsersSessions.FindAsync(user.del);
+                    var _sessiondata = await _context.UserSessions.FindAsync(user.del);
                     _sessiondata.TokenValid = 0;
                     _sessiondata.Token = "";
                     _sessiondata.SessionEnd = DateTime.Now;
                     await _context.SaveChangesAsync();
-                    response=Ok(new { logout=1 });
+                    response = Ok(1);
                 }
 
                 return response;
@@ -301,7 +299,7 @@ namespace WebApi.Controllers
                 throw;
             }
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return Ok(1);
         }
 
         // DELETE: api/user/5

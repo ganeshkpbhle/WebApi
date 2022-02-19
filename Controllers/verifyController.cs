@@ -27,7 +27,7 @@ namespace WebApi.Controllers
             try
             {
                 await _mailService.SendEmailAsync(request);
-                return Ok(new { sent = 1 });
+                return Ok("sent");
             }
             catch (Exception)
             {
@@ -45,7 +45,7 @@ namespace WebApi.Controllers
                 {
                     user.EmailVerified=1;
                     await _context.SaveChangesAsync();
-                    return Ok(new{ emailvfc=true });
+                    return Ok(true);
                 }
                 return Unauthorized();
             }

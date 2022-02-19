@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace WebApi.Models
 {
-    public partial class UsersSession
+    public partial class UserSession
     {
         public int Id { get; set; }
         public DateTime SessionStart { get; set; }
