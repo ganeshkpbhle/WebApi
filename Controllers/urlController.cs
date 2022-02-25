@@ -183,7 +183,7 @@ namespace WebApi.Controllers
                 }
             }
 
-            return Ok("created");
+            return Ok(true);
         }
 
         // DELETE: api/url/5
