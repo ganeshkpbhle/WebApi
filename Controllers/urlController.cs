@@ -62,12 +62,14 @@ namespace WebApi.Controllers
                         .GroupBy(x => x.CreatedDate.Month)
                         .Select(o => new MonthGroup()
                         {
-                            name= ((Months)o.Key).ToString(),urls=o.OrderBy(e => e.CreatedDate).ToList(),count=o.Count()
+                            name = ((Months)o.Key).ToString(),
+                            urls = o.OrderBy(e => e.CreatedDate).ToList(),
+                            count = o.Count()
                         })
                         .ToList<MonthGroup>();
                         return cmpt;
                     }
-                    return new List<MonthGroup>(){};
+                    return new List<MonthGroup>() { };
                 }
                 else
                 {
@@ -110,7 +112,7 @@ namespace WebApi.Controllers
                     foreach (var item in url)
                     {
                         days = (tdy - item.CreatedDate).TotalDays;
-                        var tmp=(Weekday)tdy.DayOfWeek;
+                        var tmp = (Weekday)tdy.DayOfWeek;
                         string key = ((Weekday)item.CreatedDate.DayOfWeek).ToString();
                         if (days > 0 && days <= 7)
                         {
@@ -126,7 +128,7 @@ namespace WebApi.Controllers
                     }
                     break;
             }
-            List<computed> li = dict.Select(pair => new computed { Name = pair.Key, Active_Count = pair.Value }).ToList();
+            List<computed> li = dict.Select(pair => new computed { Name = pair.Key, Value = pair.Value }).ToList();
             return li;
         }
 
@@ -191,7 +193,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult<DelRes>> DeleteUrl(string id)
         {
             var url = await _context.Urls.FindAsync(id);
-            var response = Ok(new DelRes(){del=1});
+            var response = Ok(new DelRes() { del = 1 });
             if (url == null)
             {
                 return NotFound();

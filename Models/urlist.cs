@@ -11,7 +11,7 @@ namespace WebApi.Models
     public partial class computed
     {
         public string Name { get; set; } = default!;
-        public int Active_Count { get; set; }
+        public int Value { get; set; }
     }
     public partial class UrlFormat
     {
