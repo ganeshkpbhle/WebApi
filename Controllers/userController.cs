@@ -232,7 +232,7 @@ namespace WebApi.Controllers
                 }
             }
 
-            return Ok("updated");
+            return Ok(new{Update=true});
         }
 
         // POST: api/user
