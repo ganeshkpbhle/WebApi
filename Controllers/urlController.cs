@@ -190,10 +190,10 @@ namespace WebApi.Controllers
 
         // DELETE: api/url/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<DelRes>> DeleteUrl(string id)
+        public async Task<ActionResult<bool>> DeleteUrl(string id)
         {
             var url = await _context.Urls.FindAsync(id);
-            var response = Ok(new DelRes() { del = 1 });
+            var response = Ok(true);
             if (url == null)
             {
                 return NotFound();
